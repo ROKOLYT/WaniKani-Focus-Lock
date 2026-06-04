@@ -1,0 +1,5 @@
+.env
+wk_profile/
+.venv/
+__pycache__/
+*.pyc
