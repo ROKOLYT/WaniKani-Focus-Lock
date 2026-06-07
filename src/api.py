@@ -2,7 +2,7 @@ import os
 import datetime
 import json
 import urllib.request
-from src.config import WANIKANI_API_BASE
+from config import WANIKANI_API_BASE
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -42,6 +42,7 @@ class WaniKaniAPI:
         return self.summary['data']['reviews'][0]['subject_ids'] if self.summary['data']['reviews'] else [] # type: ignore
     
     def get_lessons(self) -> list:
+        """May be faulty, to be tested, thus not used for now"""
         if self.summary is None:
             self.fetch_summary()
             
@@ -60,6 +61,7 @@ class WaniKaniAPI:
             return json.loads(response.read().decode())
         
     def count_todays_lessons(self) -> int:
+        """Returns count of completed lessons on the current day (resets at midnight UTC)"""
         assignments = self.get_assignments()
         today_prefix = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
         lesson_count = 0
