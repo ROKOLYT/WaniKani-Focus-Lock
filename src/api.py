@@ -2,7 +2,7 @@ import os
 import datetime
 import json
 import urllib.request
-from config import WANIKANI_API_BASE
+from src.config import WANIKANI_API_BASE
 from dotenv import load_dotenv
 
 load_dotenv()

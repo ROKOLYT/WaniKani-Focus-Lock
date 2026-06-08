@@ -84,7 +84,7 @@ async def monitor_progress(page, goal_tracker: GoalTracker) -> bool:
         
         try:
             wanikani_api.fetch_summary()
-            current_lessons = wanikani_api.get_lessons()
+            current_lessons = wanikani_api.count_todays_lessons()
             current_reviews = wanikani_api.get_reviews()
 
             lessons_done, reviews_done, lesson_goal_met, review_goal_met = (
@@ -143,16 +143,16 @@ async def main():
     # Fetch initial data
     wanikani_api = WaniKaniAPI()
     wanikani_api.fetch_summary()
-    initial_lessons = wanikani_api.get_lessons()
+    initial_lessons = wanikani_api.count_todays_lessons()
     initial_reviews = wanikani_api.get_reviews()
     lessons_batch_size = wanikani_api.get_lessons_batch_size()
     
     review_goal = min(len(initial_reviews), REVIEW_GOAL)
-    lesson_goal = min(len(initial_lessons), lessons_batch_size)
+    lesson_goal = lessons_batch_size
     
     completed_lessons = wanikani_api.count_todays_lessons()
     
-    print(f"Initial lessons: {len(initial_lessons)}, Initial reviews: {len(initial_reviews)}")
+    print(f"Initial lessons: {initial_lessons}, Initial reviews: {len(initial_reviews)}")
     
     # Launch browser
     context, page, p = await launch_browser_context()
@@ -167,7 +167,7 @@ async def main():
         print("✓ Fullscreen enabled")
 
         # Monitor progress
-        goal_tracker = GoalTracker(initial_reviews, initial_lessons, lesson_goal=lesson_goal, review_goal=review_goal, completed_lessons=completed_lessons)
+        goal_tracker = GoalTracker(initial_reviews, lesson_goal=lesson_goal, review_goal=review_goal, completed_lessons=completed_lessons)
         await setup_progress_banner(context, page)
 
         lessons_done, reviews_done, lesson_goal_met, review_goal_met = (
