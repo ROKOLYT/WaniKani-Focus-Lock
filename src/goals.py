@@ -44,7 +44,7 @@ class GoalTracker:
         self.total_reviews_done += len(completed_reviews)
         self.total_lessons_done = current_lessons
 
-        lesson_goal_met = self.total_lessons_done >= self.lesson_goal or current_lessons == 0
+        lesson_goal_met = self.total_lessons_done >= self.lesson_goal
         review_goal_met = self.total_reviews_done >= self.review_goal or current_reviews == 0
 
         return self.total_lessons_done, self.total_reviews_done, lesson_goal_met, review_goal_met

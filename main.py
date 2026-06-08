@@ -143,12 +143,12 @@ async def main():
     # Fetch initial data
     wanikani_api = WaniKaniAPI()
     wanikani_api.fetch_summary()
-    initial_lessons = wanikani_api.count_todays_lessons()
+    initial_lessons = wanikani_api.get_lessons()
     initial_reviews = wanikani_api.get_reviews()
     lessons_batch_size = wanikani_api.get_lessons_batch_size()
     
     review_goal = min(len(initial_reviews), REVIEW_GOAL)
-    lesson_goal = lessons_batch_size
+    lesson_goal = min(len(initial_lessons), lessons_batch_size)
     
     completed_lessons = wanikani_api.count_todays_lessons()
     
@@ -171,7 +171,7 @@ async def main():
         await setup_progress_banner(context, page)
 
         lessons_done, reviews_done, lesson_goal_met, review_goal_met = (
-            goal_tracker.update_progress(initial_reviews, initial_lessons)
+            goal_tracker.update_progress(initial_reviews, completed_lessons)
         )
         await update_progress_banner(
             page,
