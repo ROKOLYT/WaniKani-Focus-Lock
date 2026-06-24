@@ -2,7 +2,7 @@ WANIKANI_API_BASE = "https://api.wanikani.com/v2"
 WANIKANI_DASHBOARD = "https://www.wanikani.com/dashboard"
 
 # Goals
-REVIEW_GOAL = 10
+REVIEW_GOAL = 50
 
 # Browser settings
 USER_DATA_DIR = "./wk_profile"

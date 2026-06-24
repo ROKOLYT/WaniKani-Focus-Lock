@@ -13,11 +13,14 @@ class WaniKaniAPI:
     def __init__(self, api_token: str = API_TOKEN): # type: ignore
         self.api_token = api_token
         self.summary = None
+        self.headers = {
+            "Authorization": f"Bearer {self.api_token}",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
         
     def fetch_summary(self) -> dict:
         req = urllib.request.Request(
             f"{WANIKANI_API_BASE}/summary",
-            headers={"Authorization": f"Bearer {self.api_token}"}
+            headers=self.headers
         )
         with urllib.request.urlopen(req) as response:
             self.summary = json.loads(response.read().decode())
@@ -26,7 +29,7 @@ class WaniKaniAPI:
     def fetch_user_info(self) -> dict:
         req = urllib.request.Request(
             f"{WANIKANI_API_BASE}/user",
-            headers={"Authorization": f"Bearer {self.api_token}"}
+            headers=self.headers
         )
         with urllib.request.urlopen(req) as response:
             return json.loads(response.read().decode())
@@ -54,7 +57,7 @@ class WaniKaniAPI:
         
         req = urllib.request.Request(
             f"{WANIKANI_API_BASE}/assignments?updated_after={today_iso}",
-            headers={"Authorization": f"Bearer {self.api_token}"}
+            headers=self.headers
         )
         
         with urllib.request.urlopen(req) as response:
