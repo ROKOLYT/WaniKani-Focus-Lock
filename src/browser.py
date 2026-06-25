@@ -13,6 +13,10 @@ async def launch_browser_context() -> tuple[BrowserContext, Page, Any]:
         ignore_default_args=["--enable-automation"],
         args=BROWSER_ARGS
     )
+    
+    # Hide webdriver property from Cloudflare
+    await context.add_init_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+    
     return context, context.pages[0], p
 
 

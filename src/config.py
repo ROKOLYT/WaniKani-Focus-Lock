@@ -11,7 +11,8 @@ BROWSER_ARGS = [
     '--app=https://www.wanikani.com/dashboard',
     '--disable-infobars',
     '--no-default-browser-check',
-    '--window-position=0,0'
+    '--window-position=0,0',
+    '--disable-blink-features=AutomationControlled'
 ]
 
 # Timing
