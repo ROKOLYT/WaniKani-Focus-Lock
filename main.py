@@ -1,6 +1,7 @@
 import os
 import asyncio
 import sys
+import subprocess
 from dotenv import load_dotenv
 from src.api import WaniKaniAPI
 from src.browser import (
@@ -81,6 +82,17 @@ async def monitor_progress(page, goal_tracker: GoalTracker) -> bool:
     wanikani_api = WaniKaniAPI()
     while not page.is_closed():
         await asyncio.sleep(API_POLL_INTERVAL)
+        
+        if sys.platform == 'darwin':
+            try:
+                # Playwright's bring_to_front often doesn't switch macOS spaces.
+                # AppleScript activate forces macOS to switch to Chrome's space.
+                subprocess.run(
+                    ["osascript", "-e", 'tell application "Google Chrome" to activate'],
+                    check=False
+                )
+            except Exception:
+                pass
         
         try:
             wanikani_api.fetch_summary()

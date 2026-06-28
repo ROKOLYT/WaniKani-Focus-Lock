@@ -32,8 +32,8 @@ cat <<EOF > "$PLIST_PATH"
 </plist>
 EOF
 
-launchctl unload "$PLIST_PATH" 2>/dev/null
-launchctl load "$PLIST_PATH"
+launchctl unload "$PLIST_PATH" >/dev/null 2>&1
+launchctl load "$PLIST_PATH" >/dev/null 2>&1
 
 echo "Installed successfully."
 read -p "Press Enter to close..."
